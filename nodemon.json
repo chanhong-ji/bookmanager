@@ -1,4 +1,4 @@
 {
   "ignore": ["react-project/*"],
-  "exec": "babel-node index.js"
+  "exec": "babel-node src/index.js"
 }

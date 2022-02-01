@@ -2,9 +2,7 @@
   "name": "project",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "nodemon app",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "nodemon",
     "dev:client": "cd react-project && npm run build && npm start"
@@ -12,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.1",
     "concurrently": "^7.0.0",
     "connect-mongo": "^4.6.0",
