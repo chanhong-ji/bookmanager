@@ -8,3 +8,12 @@ module.exports = function (app) {
     })
   );
 };
+
+module.exports = function (app) {
+  app.use(
+    createProxyMiddleware("/v1", {
+      target: "https://openapi.naver.com",
+      changeOrigin: true,
+    })
+  );
+};
