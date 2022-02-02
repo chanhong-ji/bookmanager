@@ -28,7 +28,6 @@ app.use((req, res, next) => {
 app.use(morgan("dev"));
 app.use("/api/check", (req, res, next) => {
   res.json({ message: "message from server" });
-  next();
 });
 app.use(express.static(path.join(__dirname, "react-project/build")));
 
