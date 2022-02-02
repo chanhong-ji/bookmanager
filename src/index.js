@@ -5,6 +5,7 @@ import path from "path";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import "./db.js";
+import apiRouter from "./routers/apiRouter.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -26,12 +27,11 @@ app.use((req, res, next) => {
   next();
 });
 app.use(morgan("dev"));
-app.use("/api/check", (req, res, next) => {
-  res.json({ message: "message from server" });
-});
 app.use(express.static(path.join(__dirname, "react-project/build")));
 
-// Route
+// router
+app.use("/api", apiRouter);
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "react-project/build/index.html"));
 });
