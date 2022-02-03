@@ -55,6 +55,7 @@ function Header() {
           </Column>
         )}
       </Wrapper>
+      <ModalWindow />
     </>
   );
 }
