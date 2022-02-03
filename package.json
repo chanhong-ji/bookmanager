@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev": "concurrently \"npm run dev:server\"",
     "dev:server": "nodemon",
     "dev:client": "cd react-project && npm start"
   },
@@ -20,6 +20,7 @@
     "mongoose": "^6.1.9",
     "morgan": "^1.10.0",
     "react-scripts": "^5.0.0",
+    "recoil": "^0.6.1",
     "regenerator-runtime": "^0.13.9"
   },
   "devDependencies": {
@@ -29,5 +30,5 @@
     "nodemon": "^2.0.15",
     "http-proxy-middleware": "^2.0.2"
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:6000"
 }
