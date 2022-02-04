@@ -46,3 +46,12 @@ export const postJoin = async (req, res) => {
     return res.send({ success: false, message: "Server Error" });
   }
 };
+
+export const getLogout = (req, res) => {
+  req.session.destroy();
+  return;
+};
+
+export const getSession = (req, res) => {
+  return res.send({ loggedIn: req.session.loggedIn, user: req.session.user });
+};

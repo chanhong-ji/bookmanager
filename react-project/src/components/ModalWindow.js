@@ -2,9 +2,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory, useRouteMatch } from "react-router-dom";
-import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { isLoggedInState } from "../atoms";
 
 const Overlay = styled(motion.div)`
   position: fixed;
@@ -37,7 +35,6 @@ function ModalWindow() {
   const loginMatch = useRouteMatch("/login");
   const joinMatch = useRouteMatch("/join");
   const { register, handleSubmit } = useForm();
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
   const [error, setError] = useState(null);
 
   function onOverlayClick() {
@@ -58,14 +55,14 @@ function ModalWindow() {
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ email, password }),
     }).then((res) => res.json());
+
     if (response.success) {
       history.push("/");
-      setIsLoggedIn((prev) => !prev);
+      history.go(0);
     } else {
       setError(response.message);
     }
   }
-
   return (
     <>
       {loginMatch ? (
@@ -85,11 +82,11 @@ function ModalWindow() {
               <input
                 {...register("password", {
                   required: "Required",
-                  minLength: 10,
+                  minLength: 8,
                   maxLength: 16,
                 })}
                 type="password"
-                placeholder="Password 10 to 16"
+                placeholder="Password 8 to 16"
               />
               <button>Login</button>
             </form>

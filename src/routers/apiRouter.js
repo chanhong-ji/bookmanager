@@ -1,5 +1,10 @@
 import express from "express";
-import { postJoin, postLogin } from "../controllers/userController";
+import {
+  getLogout,
+  getSession,
+  postJoin,
+  postLogin,
+} from "../controllers/userController";
 
 const apiRouter = express.Router();
 
@@ -9,5 +14,7 @@ apiRouter.get("/check", (req, res) => {
 
 apiRouter.post("/login", postLogin);
 apiRouter.post("/join", postJoin);
+apiRouter.get("/logout", getLogout);
+apiRouter.get("/session", getSession);
 
 export default apiRouter;
