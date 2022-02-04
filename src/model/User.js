@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String },
   socialOnly: { type: Boolean, default: false, required: true },
-  books: [{ type: mongoose.Types.ObjectId, ref: "Books" }],
+  shelves: [{ type: mongoose.Types.ObjectId, bookId: Number, ref: "Book" }],
 });
 
 userSchema.pre("save", async function () {

@@ -3,16 +3,7 @@ import Header from "./Header";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { loggedInState, userState } from "../atoms";
-
-const Main = styled.main``;
-
-const Btn = styled.button``;
-
-const Section = styled.section``;
-
-const Title = styled.h3``;
-
-const Shelve = styled.div``;
+import Main from "./Main";
 
 // const Main2 = styled.main``;
 
@@ -34,13 +25,7 @@ function Home() {
   return (
     <>
       <Header loggedIn={loggedInRecoil} user={userRecoil} />
-      <Main>
-        <Btn>+</Btn>
-        <Section>
-          <Title></Title>
-          <Shelve></Shelve>
-        </Section>
-      </Main>
+      <Main></Main>
       <Aside></Aside>
     </>
   );
