@@ -1,5 +1,5 @@
 import express from "express";
-import { getShelves } from "../controllers/bookController";
+import { getShelves, postBook } from "../controllers/bookController";
 import {
   getLogout,
   getSession,
@@ -18,5 +18,6 @@ apiRouter.post("/join", postJoin);
 apiRouter.get("/logout", getLogout);
 apiRouter.get("/session", getSession);
 apiRouter.get("/shelves", getShelves);
+apiRouter.post("/book", postBook);
 
 export default apiRouter;
