@@ -1,4 +1,4 @@
-import Book from "../model/Book";
+import Book from "../model/Detail";
 import User from "../model/User";
 
 export const getShelves = async (req, res) => {
@@ -7,22 +7,12 @@ export const getShelves = async (req, res) => {
 };
 
 export const postBook = async (req, res) => {
-  const { isbn, title } = req.body;
+  const { isbn, title, imgUrl } = req.body;
   const user = await User.findById(req.session.user._id).populate("shelves");
   if (user.shelves.find((book) => book.isbn === +isbn) === undefined) {
-    try {
-      const book = await Book.create({
-        isbn,
-        title,
-        owner: req.session.user._id,
-      });
-      await user.shelves.push(book);
-      user.save();
-      return res.send({ type: true });
-    } catch (error) {
-      console.log("Book upload error: ", error);
-      return res.send({ type: false, message: "Server error" });
-    }
+    user.shelves.push({ isbn, title, imgUrl });
+    user.save();
+    return res.send({ type: true });
   } else {
     return res.send({ type: false, message: "Already in your Book shelves" });
   }

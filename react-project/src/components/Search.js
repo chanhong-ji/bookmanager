@@ -56,7 +56,7 @@ function Book({ isbn, imgUrl, title }) {
     const result = await fetch("/api/book", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ isbn, title }),
+      body: JSON.stringify({ isbn, title, imgUrl }),
     }).then((res) => res.json());
     if (result.type) {
       setShowMessage(true);

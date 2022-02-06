@@ -1,8 +1,7 @@
-import { Link, Route, Switch, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { loggedInState, userState } from "../atoms";
-import ModalWindow from "./ModalWindow";
 
 const Wrapper = styled.header`
   width: 100%;
@@ -10,7 +9,6 @@ const Wrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: pink;
 `;
 
 const Column = styled.div`
@@ -25,7 +23,6 @@ const Item = styled.div`
   padding: 10px;
   border-radius: 20px;
   margin: 0 5px;
-  background-color: green;
 `;
 
 function Header({ loggedIn, user }) {
@@ -64,11 +61,6 @@ function Header({ loggedIn, user }) {
           </Column>
         )}
       </Wrapper>
-      <Switch>
-        <Route path={["/login", "/join"]}>
-          <ModalWindow />
-        </Route>
-      </Switch>
     </>
   );
 }
