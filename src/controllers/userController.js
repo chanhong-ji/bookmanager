@@ -38,6 +38,7 @@ export const postJoin = async (req, res) => {
       email,
       username,
       password,
+      categories: ["new"],
     });
     return res.send({ success: true });
   } catch (error) {

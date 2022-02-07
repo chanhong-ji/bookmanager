@@ -19,5 +19,6 @@ apiRouter.get("/logout", getLogout);
 apiRouter.get("/session", getSession);
 apiRouter.get("/shelves", getShelves);
 apiRouter.post("/book", postBook);
+apiRouter.get("/", getShelves);
 
 export default apiRouter;
