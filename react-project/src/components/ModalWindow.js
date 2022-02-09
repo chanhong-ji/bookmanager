@@ -58,6 +58,7 @@ function ModalWindow() {
 
     if (response.success) {
       history.push("/");
+      history.go(0);
     } else {
       setError(response.message);
     }
