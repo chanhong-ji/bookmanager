@@ -29,21 +29,21 @@ function Router() {
         ? setShelvesRecoil([{ category: "new", books: [] }])
         : setShelvesRecoil(shelves);
     })();
+    console.log("새로고침 업데이트");
   }, []);
 
   // shelves 변동값 생기면 서버에 반영시키기
   useEffect(() => {
-    if (loggedInRecoil) {
-      (async () => {
-        fetch("/api/shelves", {
-          method: "post",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(shelvesRecoil),
-        });
-        console.log("get from /api/shelves with shelves change");
-      })();
-    }
-  }, [shelvesRecoil, loggedInRecoil]);
+    if (shelvesRecoil[0] === undefined) return;
+    (async () => {
+      fetch("/api/shelves", {
+        method: "post",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(shelvesRecoil),
+      });
+      console.log("shelves 업데이트");
+    })();
+  }, [shelvesRecoil]);
 
   return (
     <BrowserRouter>

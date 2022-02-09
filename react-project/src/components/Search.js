@@ -5,6 +5,8 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { fetchSearchResult } from "../api";
 import FlashMessage from "react-flash-message";
+import { useSetRecoilState } from "recoil";
+import { shelvesState } from "../atoms";
 
 const Overlay = styled(motion.div)`
   position: fixed;
@@ -52,23 +54,29 @@ const Message = styled.div``;
 
 function Book({ isbn, imgUrl, title }) {
   const [showMessage, setShowMessage] = useState(null);
+  const setShelves = useSetRecoilState(shelvesState);
+
   async function onBtnClick(event) {
-    const result = await fetch("/api/book", {
+    fetch("/api/book", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ isbn, title, imgUrl }),
-    }).then((res) => res.json());
-    if (result.type) {
-      setShowMessage(true);
-      setTimeout(() => {
-        setShowMessage(null);
-      }, 3000);
-    } else {
-      setShowMessage(false);
-      setTimeout(() => {
-        setShowMessage(null);
-      }, 3000);
-    }
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.type) {
+          setShelves(result.shelves);
+          setShowMessage(true);
+          setTimeout(() => {
+            setShowMessage(null);
+          }, 3000);
+        } else {
+          setShowMessage(false);
+          setTimeout(() => {
+            setShowMessage(null);
+          }, 3000);
+        }
+      });
   }
 
   return (

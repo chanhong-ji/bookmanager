@@ -15,12 +15,23 @@ export const postShelves = async (req, res) => {
 
 export const postBook = async (req, res) => {
   const { isbn, title, imgUrl } = req.body;
-  const user = await User.findById(req.session.user._id).populate("shelves");
-  if (user.shelves.find((book) => book.isbn === +isbn) === undefined) {
-    user.shelves.push({ isbn, title, imgUrl });
+  const user = await User.findById(req.session.user._id).populate({
+    path: "shelves",
+    populate: {
+      path: "books",
+    },
+  });
+  outer: for (let shelve of user.shelves) {
+    for (let book of shelve.books) {
+      if (book.isbn === +isbn) {
+        break outer;
+      }
+    }
+    const newShelve = user.shelves.pop((shelve) => shelve.category === "new");
+    newShelve.books.push({ isbn, title, imgUrl, details: [] });
+    user.shelves.push(newShelve);
     user.save();
-    return res.send({ type: true });
-  } else {
-    return res.send({ type: false, message: "Already in your Book shelves" });
+    return res.send({ type: 1, shelves: user.shelves });
   }
+  return res.send({ type: 0 });
 };
