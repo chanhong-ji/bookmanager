@@ -6,6 +6,7 @@ const Container = styled.div`
   width: 100%;
   height: 300px;
   background-color: green;
+  border: 2px solid white;
 `;
 
 const CategoryTitle = styled.h1``;
@@ -14,13 +15,13 @@ const Area = styled.div``;
 
 function Shelve({ category, index, books }) {
   return (
-    <Draggable draggableId={category} index={index}>
+    <Draggable draggableId={category + ""} index={index}>
       {(provided, info) => (
         <Container ref={provided.innerRef} {...provided.draggableProps}>
           <CategoryTitle {...provided.dragHandleProps}>
             {category}
           </CategoryTitle>
-          <Droppable droppableId={category} type="book">
+          <Droppable droppableId={category + ""} type="book">
             {(provided, info) => {
               return (
                 <Area ref={provided.innerRef} {...provided.droppableProps}>

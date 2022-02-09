@@ -3,7 +3,14 @@ import User from "../model/User";
 
 export const getShelves = async (req, res) => {
   const user = await User.findById(req.session.user._id);
-  return res.send({ categories: user.categories, shelves: user.shelves });
+  return res.send(user.shelves);
+};
+
+export const postShelves = async (req, res) => {
+  const shelves = req.body;
+  await User.findByIdAndUpdate(req.session.user._id, {
+    shelves,
+  });
 };
 
 export const postBook = async (req, res) => {

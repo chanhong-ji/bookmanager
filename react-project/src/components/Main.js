@@ -1,7 +1,13 @@
-import { useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import Shelve from "./Shelve";
+import { useForm } from "react-hook-form";
+import { useRecoilState } from "recoil";
+import { shelvesState } from "../atoms";
+
+const Container = styled.div`
+  padding-top: 50px;
+`;
 
 const Shelves = styled.div`
   padding-top: 100px;
@@ -11,41 +17,35 @@ const Shelves = styled.div`
   background-color: grey;
 `;
 
+const CategoryForm = styled.form``;
+
 function Main() {
-  const [shelves, setShelves] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [shelves, setShelves] = useRecoilState(shelvesState);
 
-  useEffect(() => {
-    (async () => {
-      const { categories, shelves } = await fetch("/api/shelves").then((res) =>
-        res.json()
-      );
-      setShelves(shelves);
-      setCategories(categories);
-    })();
-  }, []);
+  function onDragEnd({ draggableId, destination, source, type }) {
 
-  function onDragEnd() {}
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="shelves" type="shelve">
-        {(provided, info) => {
-          return (
-            <Shelves ref={provided.innerRef} {...provided.droppableProps}>
-              {categories.map((category, index) => (
-                <Shelve
-                  key={category}
-                  category={category}
-                  index={index}
-                  books={shelves.filter((book) => book.category === category)}
-                />
-              ))}
-              {provided.placeholder}
-            </Shelves>
-          );
-        }}
-      </Droppable>
+      <Container>
+        <Droppable droppableId="shelves" type="shelve" direction="vertical">
+          {(provided, info) => {
+            return (
+              <Shelves ref={provided.innerRef} {...provided.droppableProps}>
+                {shelves.map((shelve, index) => (
+                  <Shelve
+                    key={shelve._id + ""}
+                    category={shelve.category}
+                    index={index}
+                    books={shelve.books}
+                  />
+                ))}
+                {provided.placeholder}
+              </Shelves>
+            );
+          }}
+        </Droppable>
+      </Container>
     </DragDropContext>
   );
 }

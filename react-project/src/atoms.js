@@ -9,3 +9,8 @@ export const userState = atom({
   key: "userState",
   default: null,
 });
+
+export const shelvesState = atom({
+  key: "shelvesState",
+  default: [],
+});

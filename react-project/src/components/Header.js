@@ -9,6 +9,7 @@ const Wrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border: 1px solid black;
 `;
 
 const Column = styled.div`
@@ -23,6 +24,7 @@ const Item = styled.div`
   padding: 10px;
   border-radius: 20px;
   margin: 0 5px;
+  border: 1px solid black;
 `;
 
 function Header({ loggedIn, user }) {
