@@ -22,12 +22,37 @@ const CategoryForm = styled.form``;
 function Main() {
   const [shelves, setShelves] = useRecoilState(shelvesState);
 
-  function onDragEnd({ draggableId, destination, source, type }) {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    setError,
+  } = useForm();
 
+  function onValid({ category }) {
+    setValue("category", "");
+    if (shelves.find((shelve) => shelve.category === category)) {
+      setError(
+        "category",
+        { message: "Already declared" },
+        { shouldFocus: true }
+      );
+    } else {
+      setShelves((prev) => [...prev, { category, books: [] }]);
+    }
+  }
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Container>
+        <CategoryForm onSubmit={handleSubmit(onValid)}>
+          <input
+            {...register("category", { required: true })}
+            placeholder="New category"
+          />
+          <span>{errors?.category?.message}</span>
+        </CategoryForm>
         <Droppable droppableId="shelves" type="shelve" direction="vertical">
           {(provided, info) => {
             return (
