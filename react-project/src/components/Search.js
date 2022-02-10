@@ -1,12 +1,9 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { fetchSearchResult } from "../api";
-import FlashMessage from "react-flash-message";
-import { useSetRecoilState } from "recoil";
-import { shelvesState } from "../atoms";
 
 const Overlay = styled(motion.div)`
   position: fixed;
@@ -50,13 +47,15 @@ const BookWrapper = styled.li`
   border: 1px solid black;
 `;
 
-const Message = styled.div``;
-
 function Book({ isbn, imgUrl, title }) {
-  const [showMessage, setShowMessage] = useState(null);
-  const setShelves = useSetRecoilState(shelvesState);
+  const btnRef = useRef(null);
 
-  async function onBtnClick(event) {
+  function goback() {
+    btnRef.current.innerText = "Add to MY Shelve";
+    btnRef.current.disabled = false;
+  }
+
+  function onBtnClick(event) {
     fetch("/api/book", {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -65,33 +64,21 @@ function Book({ isbn, imgUrl, title }) {
       .then((res) => res.json())
       .then((result) => {
         if (result.type) {
-          setShelves(result.shelves);
-          setShowMessage(true);
-          setTimeout(() => {
-            setShowMessage(null);
-          }, 3000);
+          btnRef.current.innerText = "추가되었습니다";
         } else {
-          setShowMessage(false);
-          setTimeout(() => {
-            setShowMessage(null);
-          }, 3000);
+          btnRef.current.innerText = "이미 책장에 있습니다";
         }
+        btnRef.current.disabled = true;
+        setTimeout(goback, 2000);
       });
   }
 
   return (
     <BookWrapper>
       <span>{title}</span>
-      <button onClick={onBtnClick}>Add to MY shelve</button>
-      {showMessage ? (
-        <FlashMessage duration={3000} persistOnHover={true}>
-          <Message>추가 되었습니다.</Message>
-        </FlashMessage>
-      ) : showMessage === false ? (
-        <FlashMessage duration={3000} persistOnHover={true}>
-          <Message>이미 책장에 있습니다.</Message>
-        </FlashMessage>
-      ) : null}
+      <button ref={btnRef} onClick={onBtnClick}>
+        Add to my shelve
+      </button>
     </BookWrapper>
   );
 }
@@ -103,7 +90,7 @@ function Search() {
   const { register, handleSubmit } = useForm();
 
   function onOverlayClick() {
-    history.goBack();
+    history.push("/");
   }
   async function onSearchSubmit({ keyword }) {
     const { total, items } = await fetchSearchResult(keyword);
